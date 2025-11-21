@@ -4,6 +4,7 @@ import CarCard from "../components/CarCard";
 
 export interface Car {
     _id: string;
+    name: string; // Add name property
     title?: string;
     brand?: string;
     model?: string;
@@ -12,7 +13,6 @@ export interface Car {
     images?: string[];
     isSold?: boolean;
 }
-
 
 const Home: React.FC = () => {
     const [cars, setCars] = useState<Car[]>([]);

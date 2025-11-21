@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 interface Props {
-    children: JSX.Element;
+    children: React.ReactElement;
 }
 
 const ProtectedRoute: React.FC<Props> = ({ children }) => {

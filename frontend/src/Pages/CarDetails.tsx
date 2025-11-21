@@ -14,21 +14,17 @@ interface OwnerDetails {
 const CarDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [car, setCar] = useState<any | null>(null);
-    const [loading, setLoading] = useState(false);
     const [ownerDetails, setOwnerDetails] = useState<OwnerDetails | null>(null);
     const { user } = useAuth();
 
     useEffect(() => {
         (async () => {
             if (!id) return;
-            setLoading(true);
             try {
                 const data = await getCarById(id);
                 setCar(data);
             } catch (err) {
                 console.error(err);
-            } finally {
-                setLoading(false);
             }
         })();
     }, [id]);

@@ -3,7 +3,7 @@ import {
     useContext,
     useState,
     useEffect,
-    ReactNode,
+    type ReactNode, // Use type-only import
 } from "react";
 import { loginUser, registerUser } from "../API/api";
 

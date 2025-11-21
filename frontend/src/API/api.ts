@@ -2,8 +2,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://carrental-al0u.onrender.com/api",
 });
+
 
 // Add token automatically from localStorage
 API.interceptors.request.use((config) => {

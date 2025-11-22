@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getAllCars } from "../API/api";
 import CarCard from "../components/CarCard";
 import { useAuth } from "../context/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 export interface Car {
     _id: string;
@@ -27,6 +29,8 @@ const Home: React.FC = () => {
     const [filteredCars, setFilteredCars] = useState<Car[]>([]);
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     // Filters
     const [search, setSearch] = useState("");
@@ -50,6 +54,13 @@ const Home: React.FC = () => {
     useEffect(() => {
         fetchCars();
     }, []);
+
+    useEffect(() => {
+        if (location.state?.carDeleted) {
+            toast.success("Car deleted successfully");
+            navigate(location.pathname, { replace: true });
+        }
+    }, [location.state, navigate]);
 
     // Filtering Logic
     const applyFilters = () => {

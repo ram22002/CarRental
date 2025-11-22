@@ -6,8 +6,26 @@ export const addCar = async (req, res) => {
 
     const imagePaths = req.files ? req.files.map(file => file.path) : [];
 
+    const {
+      title,
+      brand,
+      model,
+      year,
+      price,
+      kmDriven,
+      fuelType,
+      transmission
+    } = req.body;
+
     const car = await Car.create({
-      ...req.body,
+      title,
+      brand,
+      model,
+      year,
+      price,
+      kmDriven,
+      fuelType,
+      transmission,
       images: imagePaths,
       owner,
     });
@@ -51,20 +69,8 @@ export const buyCar = async (req, res) => {
 
 export const getCars = async (req, res) => {
   try {
-    const cars = await Car.find().populate("owner", "name email");
+    const cars = await Car.find({ isSold: false }).populate("owner", "name email _id");
     res.status(200).json(cars);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-export const getCarById = async (req, res) => {
-  try {
-    const car = await Car.findById(req.params.id).populate("owner", "name email");
-    if (!car) {
-      return res.status(404).json({ message: "Car not found" });
-    }
-    res.status(200).json(car);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

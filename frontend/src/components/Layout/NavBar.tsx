@@ -27,6 +27,9 @@ const Navbar: React.FC = () => {
                     {user ? (
                         <>
                             <span className="text-sm font-medium hidden sm:inline">{user.email}</span>
+                            <Button onClick={() => navigate("/dashboard")} >
+                                Dashboard
+                            </Button>
                             <Button onClick={() => navigate("/add-car")} variant="outline">
                                 Sell Car
                             </Button>

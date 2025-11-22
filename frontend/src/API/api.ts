@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://carrental-o4g2.onrender.com/api",
+  baseURL: "https://carrental-al0u.onrender.com/api",
 });
 
 

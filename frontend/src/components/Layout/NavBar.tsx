@@ -15,9 +15,7 @@ const Navbar: React.FC = () => {
         <>
             {user ? (
                 <>
-                    <Button onClick={() => navigate("/")} >
-                        All Cars
-                    </Button>
+                    <span className="font-semibold text-nowrap self-center">Hi, {user.name}</span>
                     <Button onClick={() => navigate("/my-cars")} >
                         My Cars
                     </Button>

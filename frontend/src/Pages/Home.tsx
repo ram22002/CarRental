@@ -188,22 +188,22 @@ const Home: React.FC = () => {
                                 type="checkbox"
                                 checked={showMyCars}
                                 onChange={(e) => setShowMyCars(e.target.checked)}
-                                className="form-checkbox h-5 w-5 text-blue-600"
+                                className="form-checkbox h-5 w-5 text-primary"
                             />
-                            <span className="text-gray-700">Show My Cars Only</span>
+                            <span className="text-foreground">Show My Cars Only</span>
                         </label>
                     </div>
                 )}
 
                 <div className="mt-4 flex gap-4">
                     <button
-                        className="bg-blue-500 text-white p-2 rounded-md"
+                        className="bg-primary text-primary-foreground p-2 rounded-md"
                         onClick={applyFilters}
                     >
                         Apply Filters
                     </button>
                     <button
-                        className="bg-gray-300 text-gray-700 p-2 rounded-md"
+                        className="bg-secondary text-secondary-foreground p-2 rounded-md"
                         onClick={clearFilters}
                     >
                         Clear Filters

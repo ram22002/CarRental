@@ -1,0 +1,45 @@
+// src/components/CarCard.tsx
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+export interface Car {
+    _id: string;
+    title?: string;
+    brand?: string;
+    model?: string;
+    year?: number;
+    price: number;
+    images?: string[];
+    isSold?: boolean;
+}
+
+const CarCard: React.FC<{ car: Car }> = ({ car }) => {
+    const navigate = useNavigate();
+    return (
+        <div className="bg-muted-foreground rounded-lg shadow overflow-hidden">
+            <div className="h-44 bg-muted flex items-center justify-center">
+                {car.images && car.images.length ? (
+                    //   show first image
+                    //   eslint-disable-next-line @next/next/no-img-element
+                    <img src={car.images[0]} alt={car.title} className="h-full w-full object-cover" />
+                ) : (
+                    <div className="text-gray-400">No Image</div>
+                )}
+            </div>
+
+            <div className="p-3">
+                <h4 className="font-semibold">{car.title ?? `${car.brand} ${car.model}`}</h4>
+                <p className="text-sm text-gray-600">Year: {car.year ?? "-"}</p>
+                <p className="text-lg font-bold mt-2">₹ {car.price.toLocaleString()}</p>
+
+                <div className="mt-3 flex gap-2">
+                    <button onClick={() => navigate(`/car/${car._id}`)} className="px-3 py-1 rounded bg-primary text-white">
+                        View
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CarCard;

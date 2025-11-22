@@ -1,10 +1,16 @@
 import { Car } from "../models/car.model.js";
+import path from "path";
 
 export const addCar = async (req, res) => {
   try {
     const owner = req.user.id;
 
-    const imagePaths = req.files ? req.files.map(file => file.path) : [];
+    let imagePaths = [];
+    if (req.files && req.files.length > 0) {
+      imagePaths = req.files.map((file) => `/uploads/${path.basename(file.path)}`);
+    } else {
+      imagePaths = ["https://stmartinblue.com/images/cars/default_car.jpg"];
+    }
 
     const {
       title,
@@ -14,7 +20,7 @@ export const addCar = async (req, res) => {
       price,
       kmDriven,
       fuelType,
-      transmission
+      transmission,
     } = req.body;
 
     const car = await Car.create({
@@ -36,8 +42,6 @@ export const addCar = async (req, res) => {
   }
 };
 
-
-
 export const buyCar = async (req, res) => {
   try {
     const carId = req.params.id;
@@ -57,20 +61,55 @@ export const buyCar = async (req, res) => {
       ownerDetails: {
         name: car.owner.name,
         email: car.owner.email,
-        phone: car.owner.phone
-      }
+        phone: car.owner.phone,
+      },
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
 export const getCars = async (req, res) => {
   try {
     const cars = await Car.find({ isSold: false }).populate("owner", "name email _id");
     res.status(200).json(cars);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getCarById = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id).populate("owner", "name email _id");
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    res.status(200).json(car);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getMyCars = async (req, res) => {
+  try {
+    const myCars = await Car.find({ owner: req.user.id });
+    res.status(200).json(myCars);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteCar = async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (!car) {
+      return res.status(404).json({ message: "Car not found" });
+    }
+    if (car.owner.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    await car.remove();
+    res.status(200).json({ message: "Car deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { addCarAPI } from "../API/api";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+import { toast } from "sonner";
 
 const AddCar: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const AddCar: React.FC = () => {
 
     // basic validation
     if (!form.brand || !form.model || !form.price) {
-      alert("Brand, model, and price are required");
+      toast.error("Brand, model, and price are required");
       return;
     }
 
@@ -50,11 +51,11 @@ const AddCar: React.FC = () => {
     setLoading(true);
     try {
       await addCarAPI(fd);
-      alert("Car added successfully");
+      toast.success("Car added successfully");
       navigate("/");
     } catch (err: any) {
       console.error(err);
-      alert(err?.message || "Add car failed");
+      toast.error(err?.message || "Add car failed");
     } finally {
       setLoading(false);
     }

@@ -7,10 +7,12 @@ import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import CarDetails from "./Pages/CarDetails.tsx";
 import MyCars from "./Pages/MyCars.tsx"; // Import MyCars component
 import AddCar from "./Pages/AddCar.tsx";
+import { Toaster } from "sonner";
 
 const App: React.FC = () => {
   return (
     <div className="min-h-screen ">
+      <Toaster richColors theme="dark" />
       <NavBar />
       <main className="max-w-7xl mx-auto p-4">
         <Routes>

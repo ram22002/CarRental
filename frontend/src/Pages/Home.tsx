@@ -4,6 +4,14 @@ import CarCard from "../components/CarCard";
 import { useAuth } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
+import { Button } from "../components/ui/button";
 
 export interface Car {
     _id: string;
@@ -169,15 +177,33 @@ const Home: React.FC = () => {
                     />
 
                     {/* Sort Options */}
-                    <select
-                        className="border p-2 rounded-md"
-                        value={sort}
-                        onChange={(e) => setSort(e.target.value)}
-                    >
-                        <option value="">Sort By</option>
-                        <option value="low">Price: Low → High</option>
-                        <option value="high">Price: High → Low</option>
-                    </select>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="w-full">
+                                {sort === "low"
+                                    ? "Price: Low → High"
+                                    : sort === "high"
+                                    ? "Price: High → Low"
+                                    : "Sort By"}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => setSort("low")}>
+                                Price: Low → High
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => setSort("high")}>
+                                Price: High → Low
+                            </DropdownMenuItem>
+                            {sort && (
+                                <>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onSelect={() => setSort("")}>
+                                        Clear Sort
+                                    </DropdownMenuItem>
+                                </>
+                            )}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
                 
                 {/* My Cars Filter */}
@@ -188,22 +214,22 @@ const Home: React.FC = () => {
                                 type="checkbox"
                                 checked={showMyCars}
                                 onChange={(e) => setShowMyCars(e.target.checked)}
-                                className="form-checkbox h-5 w-5 text-blue-600"
+                                className="form-checkbox h-5 w-5 text-primary"
                             />
-                            <span className="text-gray-700">Show My Cars Only</span>
+                            <span className="text-foreground">Show My Cars Only</span>
                         </label>
                     </div>
                 )}
 
                 <div className="mt-4 flex gap-4">
                     <button
-                        className="bg-blue-500 text-white p-2 rounded-md"
+                        className="bg-primary text-primary-foreground p-2 rounded-md"
                         onClick={applyFilters}
                     >
                         Apply Filters
                     </button>
                     <button
-                        className="bg-gray-300 text-gray-700 p-2 rounded-md"
+                        className="bg-secondary text-secondary-foreground p-2 rounded-md"
                         onClick={clearFilters}
                     >
                         Clear Filters
